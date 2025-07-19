@@ -1,26 +1,39 @@
 import './App.css'
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import Home from "./pages/Home";
 import SubmitExperience from "./pages/SubmitExperience";
 import Analytics from "./pages/Analytics";
-import About from "./pages/About";
-import Navbar from "./components/Navbar";
 
-function App() {
-  
+
+import BottomNav from "./components/BottomNav";
+import ErrorBoundary from "./components/ErrorBoundary";
+
+function AppContent() {
+  const location = useLocation();
+  const isHomePage = location.pathname === '/';
 
   return (
-     <Router>
-      <Navbar />
-      <div className="p-4">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
+      <main className={isHomePage ? "" : "container mx-auto px-4 py-8 pb-20"}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/submit" element={<SubmitExperience />} />
           <Route path="/analytics" element={<Analytics />} />
-          <Route path="/about" element={<About />} />
+
         </Routes>
-      </div>
-    </Router>
+      </main>
+      <BottomNav />
+    </div>
+  );
+}
+
+function App() {
+  return (
+    <ErrorBoundary>
+      <Router>
+        <AppContent />
+      </Router>
+    </ErrorBoundary>
   );
 }
 

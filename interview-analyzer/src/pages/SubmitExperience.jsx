@@ -12,19 +12,26 @@ const SubmitExperience = () => {
     tags: "",
   });
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsSubmitting(true);
 
     // Optional: Form validation
     if (!formData.company || !formData.role || !formData.experience) {
       alert("Please fill all required fields.");
+      setIsSubmitting(false);
       return;
     }
+
+    // Simulate API call
+    await new Promise(resolve => setTimeout(resolve, 2000));
 
     // For now, just log the data
     console.log("Submitted Experience:", formData);
@@ -32,7 +39,7 @@ const SubmitExperience = () => {
     // TODO: Send to backend via fetch/axios
     // await axios.post("/api/submit-experience", formData)
 
-    alert("Thank you! Your experience has been submitted.");
+    alert("Thank you! Your experience has been submitted successfully.");
     setFormData({
       name: "",
       email: "",
@@ -43,53 +50,173 @@ const SubmitExperience = () => {
       difficulty: "",
       tags: "",
     });
+    setIsSubmitting(false);
   };
 
   return (
-    <div className="max-w-3xl mx-auto p-6 bg-white rounded-lg shadow-lg">
-      <h2 className="text-2xl font-bold mb-4">Submit Interview Experience</h2>
-      <form onSubmit={handleSubmit} className="space-y-4">
+    <div className="max-w-4xl mx-auto">
+      <div className="text-center mb-12">
+        <h1 className="text-4xl font-bold text-gray-800 mb-4">Share Your Interview Experience</h1>
+        <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+          Help others learn from your journey. Your experience could be the key to someone else's success.
+        </p>
+      </div>
 
-        <input name="name" placeholder="Your Name" value={formData.name} onChange={handleChange}
-          className="w-full p-2 border border-gray-300 rounded" />
+      <div className="bg-white rounded-2xl shadow-xl p-8 md:p-12">
+        <form onSubmit={handleSubmit} className="space-y-8">
+          {/* Personal Information */}
+          <div className="grid md:grid-cols-2 gap-6">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Your Name
+              </label>
+              <input 
+                name="name" 
+                placeholder="Enter your name" 
+                value={formData.name} 
+                onChange={handleChange}
+                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Email Address
+              </label>
+              <input 
+                name="email" 
+                placeholder="your.email@example.com" 
+                type="email" 
+                value={formData.email} 
+                onChange={handleChange}
+                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+              />
+            </div>
+          </div>
 
-        <input name="email" placeholder="Your Email" type="email" value={formData.email} onChange={handleChange}
-          className="w-full p-2 border border-gray-300 rounded" />
+          {/* Company Information */}
+          <div className="grid md:grid-cols-2 gap-6">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Company Name <span className="text-red-500">*</span>
+              </label>
+              <input 
+                name="company" 
+                placeholder="e.g., Google, Microsoft, Amazon" 
+                required 
+                value={formData.company} 
+                onChange={handleChange}
+                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Role/Position <span className="text-red-500">*</span>
+              </label>
+              <input 
+                name="role" 
+                placeholder="e.g., Software Engineer, Data Scientist" 
+                required 
+                value={formData.role} 
+                onChange={handleChange}
+                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+              />
+            </div>
+          </div>
 
-        <input name="company" placeholder="Company *" required value={formData.company} onChange={handleChange}
-          className="w-full p-2 border border-gray-300 rounded" />
+          {/* Experience */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Interview Experience <span className="text-red-500">*</span>
+            </label>
+            <textarea 
+              name="experience" 
+              placeholder="Share your complete interview experience including questions asked, your responses, and overall process..." 
+              required 
+              value={formData.experience} 
+              onChange={handleChange}
+              rows={8} 
+              className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 resize-none"
+            />
+          </div>
 
-        <input name="role" placeholder="Role *" required value={formData.role} onChange={handleChange}
-          className="w-full p-2 border border-gray-300 rounded" />
+          {/* Additional Details */}
+          <div className="grid md:grid-cols-2 gap-6">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Interview Outcome
+              </label>
+              <select 
+                name="verdict" 
+                value={formData.verdict} 
+                onChange={handleChange}
+                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+              >
+                <option value="">Select outcome</option>
+                <option value="Selected">Selected</option>
+                <option value="Rejected">Rejected</option>
+                <option value="Shortlisted">Shortlisted</option>
+                <option value="Pending">Pending</option>
+                <option value="Withdrawn">Withdrawn</option>
+              </select>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Difficulty Level
+              </label>
+              <select 
+                name="difficulty" 
+                value={formData.difficulty} 
+                onChange={handleChange}
+                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+              >
+                <option value="">Select difficulty</option>
+                <option value="Easy">Easy</option>
+                <option value="Medium">Medium</option>
+                <option value="Hard">Hard</option>
+                <option value="Very Hard">Very Hard</option>
+              </select>
+            </div>
+          </div>
 
-        <textarea name="experience" placeholder="Full Experience *" required value={formData.experience} onChange={handleChange}
-          rows={6} className="w-full p-2 border border-gray-300 rounded" />
+          {/* Tags */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Tags
+            </label>
+            <input 
+              name="tags" 
+              placeholder="e.g., SDE, Internship, Frontend, Backend, System Design" 
+              value={formData.tags} 
+              onChange={handleChange}
+              className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+            />
+            <p className="text-sm text-gray-500 mt-2">
+              Add relevant tags to help others find your experience
+            </p>
+          </div>
 
-        <select name="verdict" value={formData.verdict} onChange={handleChange}
-          className="w-full p-2 border border-gray-300 rounded">
-          <option value="">Verdict (optional)</option>
-          <option value="Selected">Selected</option>
-          <option value="Rejected">Rejected</option>
-          <option value="Shortlisted">Shortlisted</option>
-          <option value="Other">Other</option>
-        </select>
-
-        <select name="difficulty" value={formData.difficulty} onChange={handleChange}
-          className="w-full p-2 border border-gray-300 rounded">
-          <option value="">Difficulty (optional)</option>
-          <option value="Easy">Easy</option>
-          <option value="Medium">Medium</option>
-          <option value="Hard">Hard</option>
-        </select>
-
-        <input name="tags" placeholder="Tags (e.g. SDE, Internship)" value={formData.tags} onChange={handleChange}
-          className="w-full p-2 border border-gray-300 rounded" />
-
-        <button type="submit"
-          className="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700 transition">
-          Submit Experience
-        </button>
-      </form>
+          {/* Submit Button */}
+          <div className="pt-6">
+            <button 
+              type="submit"
+              disabled={isSubmitting}
+              className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-4 px-8 rounded-xl font-semibold text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+            >
+              {isSubmitting ? (
+                <div className="flex items-center justify-center">
+                  <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                  Submitting...
+                </div>
+              ) : (
+                "Submit Experience"
+              )}
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };
