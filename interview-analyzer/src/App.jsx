@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, useLocation } from "react-route
 import Home from "./pages/Home";
 import SubmitExperience from "./pages/SubmitExperience";
 import Analytics from "./pages/Analytics";
+import BrowseExperiences from './pages/BrowseExperiences';
 
 
 import BottomNav from "./components/BottomNav";
@@ -19,7 +20,7 @@ function AppContent() {
           <Route path="/" element={<Home />} />
           <Route path="/submit" element={<SubmitExperience />} />
           <Route path="/analytics" element={<Analytics />} />
-
+          <Route path="/browse" element={<BrowseExperiences />} />
         </Routes>
       </main>
       <BottomNav />

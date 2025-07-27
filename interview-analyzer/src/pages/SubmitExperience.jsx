@@ -19,27 +19,30 @@ const SubmitExperience = () => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsSubmitting(true);
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  setIsSubmitting(true);
 
-    // Optional: Form validation
-    if (!formData.company || !formData.role || !formData.experience) {
-      alert("Please fill all required fields.");
-      setIsSubmitting(false);
-      return;
-    }
+  try {
+    const response = await fetch('/api/submit-experience', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(formData),
+    });
 
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    let result = {};
+try {
+  result = await response.json();
+} catch (e) {
+  throw new Error("Server did not return valid JSON");
+}
 
-    // For now, just log the data
-    console.log("Submitted Experience:", formData);
+if (!response.ok) {
+  throw new Error(result?.message || "Submission failed");
+}
 
-    // TODO: Send to backend via fetch/axios
-    // await axios.post("/api/submit-experience", formData)
 
-    alert("Thank you! Your experience has been submitted successfully.");
+    alert("Thank you! Your experience has been submitted and processed.");
     setFormData({
       name: "",
       email: "",
@@ -50,8 +53,13 @@ const SubmitExperience = () => {
       difficulty: "",
       tags: "",
     });
+  } catch (err) {
+    alert(err.message);
+  } finally {
     setIsSubmitting(false);
-  };
+  }
+};
+
 
   return (
     <div className="max-w-4xl mx-auto">
