@@ -10,8 +10,9 @@ export default function BrowseExperiences() {
   const [error, setError] = useState(null);
   const [expandedCards, setExpandedCards] = useState({});
   const [expandedHighlights, setExpandedHighlights] = useState({});
-  const [selectedCompany, setSelectedCompany] = useState("All");
-  const [selectedRole, setSelectedRole] = useState("All");
+  const [filters, setFilters] = useState({ company: 'all', role: 'all' });
+  const [showFilters, setShowFilters] = useState(false);
+  const [filterOptions, setFilterOptions] = useState({ companies: [], roles: [] });
 
   useEffect(() => {
     const fetchData = async () => {
@@ -21,6 +22,11 @@ export default function BrowseExperiences() {
         const data = await response.json();
         setExperiences(data);
         setFilteredExperiences(data);
+        
+        // Extract unique filter options
+        const companies = Array.from(new Set(data.map(exp => exp.company).filter(Boolean)));
+        const roles = Array.from(new Set(data.map(exp => exp.role).filter(Boolean)));
+        setFilterOptions({ companies, roles });
       } catch (err) {
         console.error(err);
         setError(err.message);
@@ -35,16 +41,24 @@ export default function BrowseExperiences() {
   useEffect(() => {
     let filtered = experiences;
 
-    if (selectedCompany !== "All") {
-      filtered = filtered.filter(exp => exp.company && exp.company.toLowerCase() === selectedCompany.toLowerCase());
+    if (filters.company !== 'all') {
+      filtered = filtered.filter(exp => exp.company && exp.company.toLowerCase() === filters.company.toLowerCase());
     }
 
-    if (selectedRole !== "All") {
-      filtered = filtered.filter(exp => exp.role && exp.role.toLowerCase().includes(selectedRole.toLowerCase()));
+    if (filters.role !== 'all') {
+      filtered = filtered.filter(exp => exp.role && exp.role.toLowerCase().includes(filters.role.toLowerCase()));
     }
 
     setFilteredExperiences(filtered);
-  }, [selectedCompany, selectedRole, experiences]);
+  }, [filters, experiences]);
+
+  const handleFilterChange = (key, value) => {
+    setFilters(prev => ({ ...prev, [key]: value }));
+  };
+
+  const clearAllFilters = () => {
+    setFilters({ company: 'all', role: 'all' });
+  };
 
   const toggleExpanded = (idx) => {
     setExpandedCards(prev => ({ ...prev, [idx]: !prev[idx] }));
@@ -89,15 +103,7 @@ export default function BrowseExperiences() {
     return sentences.slice(0, lines).join('. ') + (sentences.length > lines ? '...' : '');
   };
 
-  const getUniqueCompanies = () => {
-    const companies = experiences.map(exp => exp.company || "");
-    return ["All", ...new Set(companies.filter(c => c && c.trim() !== ""))];
-  };
-
-  const getUniqueRoles = () => {
-    const roles = experiences.map(exp => exp.role || "");
-    return ["All", ...new Set(roles.filter(r => r && r.trim() !== ""))];
-  };
+  const activeFiltersCount = Object.values(filters).filter(f => f !== 'all').length;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-100 to-white py-8 px-6">
@@ -107,27 +113,128 @@ export default function BrowseExperiences() {
           <p className="text-sm text-gray-600">Explore real candidate stories and questions</p>
         </div>
 
-        <div className="flex flex-col sm:flex-row justify-center gap-4 mb-6">
-          <select
-            value={selectedCompany}
-            onChange={(e) => setSelectedCompany(e.target.value)}
-            className="border border-gray-300 rounded px-4 py-2 shadow-sm text-sm text-gray-700"
+        {/* Header with Filter Button */}
+        <div className="flex items-center justify-between flex-wrap gap-4 mb-6">
+          <div className="flex items-center gap-3">
+            <div className="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full">
+              {filteredExperiences.length} experiences
+            </div>
+          </div>
+          <button
+            onClick={() => setShowFilters(!showFilters)}
+            className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors"
           >
-            {getUniqueCompanies().map((company, idx) => (
-              <option key={idx} value={company}>{company}</option>
-            ))}
-          </select>
-
-          <select
-            value={selectedRole}
-            onChange={(e) => setSelectedRole(e.target.value)}
-            className="border border-gray-300 rounded px-4 py-2 shadow-sm text-sm text-gray-700"
-          >
-            {getUniqueRoles().map((role, idx) => (
-              <option key={idx} value={role}>{role}</option>
-            ))}
-          </select>
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
+            </svg>
+            Filters
+            {activeFiltersCount > 0 && (
+              <span className="bg-white text-blue-600 text-xs font-bold px-2 py-1 rounded-full">
+                {activeFiltersCount}
+              </span>
+            )}
+          </button>
         </div>
+
+        {/* Advanced Filters Panel */}
+        {showFilters && (
+          <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-6 mb-6">
+            <div className="flex items-center justify-between mb-6">
+              <h4 className="text-lg font-semibold text-gray-900">Filter Experiences</h4>
+              <button
+                onClick={clearAllFilters}
+                className="text-sm text-blue-600 hover:text-blue-800 font-medium flex items-center gap-1"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+                Clear All
+              </button>
+            </div>
+            
+            <div className="space-y-6">
+              {/* Company Filter */}
+              <div>
+                <h5 className="text-sm font-semibold text-gray-700 mb-3 flex items-center gap-2">
+                  <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
+                  Company
+                </h5>
+                <div className="flex flex-wrap gap-2">
+                  <button
+                    onClick={() => handleFilterChange('company', 'all')}
+                    className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
+                      filters.company === 'all'
+                        ? 'bg-blue-600 text-white shadow-md'
+                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    }`}
+                  >
+                    All Companies
+                  </button>
+                  {filterOptions.companies.map(company => (
+                    <button
+                      key={company}
+                      onClick={() => handleFilterChange('company', company)}
+                      className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
+                        filters.company === company
+                          ? 'bg-gray-800 text-white shadow-md'
+                          : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                      }`}
+                    >
+                      {company}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Role Filter */}
+              <div>
+                <h5 className="text-sm font-semibold text-gray-700 mb-3 flex items-center gap-2">
+                  <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                  Job Role
+                </h5>
+                <div className="flex flex-wrap gap-2">
+                  <button
+                    onClick={() => handleFilterChange('role', 'all')}
+                    className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
+                      filters.role === 'all'
+                        ? 'bg-blue-600 text-white shadow-md'
+                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    }`}
+                  >
+                    All Roles
+                  </button>
+                  {filterOptions.roles.map(role => (
+                    <button
+                      key={role}
+                      onClick={() => handleFilterChange('role', role)}
+                      className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
+                        filters.role === role
+                          ? 'bg-purple-600 text-white shadow-md'
+                          : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                      }`}
+                    >
+                      {role}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Active Filters Summary */}
+            {activeFiltersCount > 0 && (
+              <div className="mt-6 pt-4 border-t border-gray-200">
+                <div className="flex items-center gap-2 text-sm text-gray-600">
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
+                  </svg>
+                  <span className="font-medium">{activeFiltersCount} active filter{activeFiltersCount !== 1 ? 's' : ''}</span>
+                  <span>•</span>
+                  <span>{filteredExperiences.length} experiences found</span>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
 
         <div className="mt-10 text-center">
           <Link to="/" className="inline-block text-blue-600 hover:underline text-sm">← Back to Home</Link>

@@ -4,6 +4,7 @@ import Home from "./pages/Home";
 import SubmitExperience from "./pages/SubmitExperience";
 import Analytics from "./pages/Analytics";
 import BrowseExperiences from './pages/BrowseExperiences';
+import Questions from './components/Questions';
 
 
 import BottomNav from "./components/BottomNav";
@@ -21,6 +22,7 @@ function AppContent() {
           <Route path="/submit" element={<SubmitExperience />} />
           <Route path="/analytics" element={<Analytics />} />
           <Route path="/browse" element={<BrowseExperiences />} />
+          <Route path="/questions" element={<Questions />} />
         </Routes>
       </main>
       <BottomNav />
