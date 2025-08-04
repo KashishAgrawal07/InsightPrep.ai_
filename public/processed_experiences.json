@@ -696,5 +696,76 @@
       "systemDesignQuestions": [],
       "codingQuestions": []
     }
+  },
+  {
+    "id": "exp_1754323184210",
+    "title": "Interview at Chikoo",
+    "company": "Chikoo",
+    "role": "Software Developer",
+    "verdict": "Pending",
+    "difficulty": "Medium",
+    "source": "User Submission",
+    "timestamp": "2025-08-04T21:30:37.438032",
+    "nlp_processed": true,
+    "nlp_tools_used": {
+      "nltk": true,
+      "spacy": true
+    },
+    "sentiment_analysis": {
+      "sentiment": "positive",
+      "vader_scores": {
+        "neg": 0,
+        "neu": 0.517,
+        "pos": 0.483,
+        "compound": 0.4215
+      },
+      "keyword_scores": {
+        "positive": 0,
+        "negative": 0,
+        "neutral": 0
+      },
+      "confidence": 0.4215
+    },
+    "categorized_questions": {
+      "technical": [],
+      "behavioral": [],
+      "system_design": [],
+      "coding": [],
+      "other": []
+    },
+    "extracted_insights": {
+      "topics": [],
+      "skills": [],
+      "technologies": [],
+      "companies_mentioned": [],
+      "difficulty_indicators": [],
+      "preparation_tips": [],
+      "red_flags": [],
+      "positive_aspects": []
+    },
+    "interview_rounds": [],
+    "highlights": [
+      "Overall positive interview experience"
+    ],
+    "feedback_sentiment": "positive",
+    "raw_questions": [],
+    "original_experience": "it was a nice experience",
+    "user_data": {
+      "name": "Manasi Sonje",
+      "email": "manasi@gmail.com",
+      "tags": "",
+      "interviewType": "",
+      "experienceLevel": "",
+      "preparationTime": "",
+      "location": "",
+      "salary": "",
+      "overallExperience": "",
+      "tips": "",
+      "feedback": "",
+      "technicalQuestions": [],
+      "behavioralQuestions": [],
+      "systemDesignQuestions": [],
+      "codingQuestions": []
+    }
   }
 ]
