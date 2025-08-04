@@ -1,8 +1,8 @@
 {
-<<<<<<< HEAD
   "name": "interview-analyzer",
   "private": true,
   "version": "0.0.0",
+  
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -12,11 +12,9 @@
   "dependencies": {
     "axios": "^1.10.0",
     "body-parser": "^2.2.0",
-    "chart.js": "^4.5.0",
     "cors": "^2.8.5",
     "express": "^5.1.0",
     "react": "^19.1.0",
-    "react-chartjs-2": "^5.3.0",
     "react-dom": "^19.1.0",
     "react-router-dom": "^7.6.3"
   },
@@ -35,15 +33,4 @@
     "tailwindcss": "^4.1.11",
     "vite": "^7.0.0"
   }
-=======
-  "name": "insightprep.ai",
-  "version": "1.0.0",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
-  "license": "ISC",
-  "description": ""
->>>>>>> d24eac5d7a3b3aa1d3e63566dac81a120f650f79
 }
