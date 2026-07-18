@@ -137,43 +137,7 @@ InsightPrep.ai/
 └── README.md            # Project documentation
 ```
 
-## 🤝 Contributing
 
-We welcome contributions from the community! Here's how you can help:
-
-### Ways to Contribute
-1. **Share Interview Experiences** - Add your interview stories
-2. **Submit Questions** - Contribute practice questions
-3. **Report Bugs** - Help us improve the platform
-4. **Feature Requests** - Suggest new features
-5. **Code Contributions** - Submit pull requests
-
-### Development Contribution
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-## 👥 Community & Support
-
-- **GitHub Issues**: Report bugs and request features
-- **Discussions**: Share ideas and get help
-- **Contributors**: Special thanks to all contributors
-
-## 🌟 Acknowledgments
-
-- Thanks to all interview contributors sharing their experiences
-- Community members helping with questions and feedback
-- Open source libraries making this project possible
-
-## 📞 Contact
-
-**Project Maintainer**: Kashish Agrawal
-**Project Maintainer**: Manasi Sonje
-
-- GitHub: [@KashishAgrawal07](https://github.com/KashishAgrawal07)
-- GitHub: [@Manasi-Sonje](https://github.com/Manasi-Sonje)
 
 ---
 
