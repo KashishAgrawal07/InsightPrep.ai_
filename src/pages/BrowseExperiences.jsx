@@ -293,14 +293,14 @@ export default function BrowseExperiences() {
   const activeFiltersCount = Object.values(filters).filter(f => f !== 'all').length;
 
   return (
-    <div className="bg-gradient-to-br from-blue-900 to-white  overflow-hidden flex flex-col">
+    <div className="bg-gradient-to-br from-indigo-950 via-blue-900 to-slate-900 overflow-hidden flex flex-col min-h-screen">
       {/* Header Section */}
-      <div className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-10">
+      <div className="bg-white/95 backdrop-blur-sm shadow-md border-b border-indigo-100 sticky top-0 z-10">
         <div className="max-w-7xl mx-auto px-6 py-6">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-2xl font-bold text-gray-900">Interview Experiences</h1>
-              <p className="text-gray-600 mt-1">Real insights from candidates like you</p>
+              <h1 className="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-blue-500 bg-clip-text text-transparent">InsightPrep</h1>
+              <p className="text-gray-500 mt-1 text-sm">Real interview experiences shared by candidates</p>
             </div>
             <div className="flex items-center gap-3">
               {filteredExperiences.length > 0 && (
@@ -316,9 +316,12 @@ export default function BrowseExperiences() {
               )}
               <Link 
                 to="/" 
-                className="inline-flex items-center gap-2 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
+                className="inline-flex items-center gap-2 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-sm"
               >
-                ← Back to Home
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                </svg>
+                Back
               </Link>
             </div>
           </div>
@@ -329,18 +332,18 @@ export default function BrowseExperiences() {
       <div className="flex-1 overflow-y-auto">
         <div className="max-w-7xl mx-auto px-6 py-8">
           {/* Filter Section */}
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 mb-8">
-          <div className="px-6 py-4 border-b border-gray-100">
+          <div className="bg-white/90 backdrop-blur-sm rounded-xl shadow-md border border-indigo-100 mb-8">
+          <div className="px-6 py-4 border-b border-indigo-50">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-4">
                 <h3 className="text-lg font-semibold text-gray-900">Filter Results</h3>
-                <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
+                <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-indigo-100 text-indigo-700">
                   {filteredExperiences.length} experiences
                 </span>
               </div>
               <button
                 onClick={() => setShowFilters(!showFilters)}
-                className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors text-sm"
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4" />
@@ -444,13 +447,13 @@ export default function BrowseExperiences() {
           ) : (
             <div className="space-y-6">
               {filteredExperiences.map((exp, idx) => (
-                <div key={idx} className="bg-white rounded-xl shadow-sm border border-gray-200 hover:shadow-md transition-all duration-200">
+                <div key={idx} className="bg-white rounded-xl shadow-md border border-indigo-100 hover:shadow-lg hover:border-indigo-200 transition-all duration-200">
                   {/* Card Header */}
-                  <div className="px-6 py-5 border-b border-gray-100">
+                  <div className="px-6 py-5 border-b border-indigo-50">
                     <div className="flex items-start justify-between">
                       <div className="flex-1">
-                        <h3 className="text-xl font-semibold text-gray-900 mb-2">{exp.company || 'Unknown Company'}</h3>
-                        <p className="text-lg text-blue-600 font-medium mb-3">{exp.role || 'Role not specified'}</p>
+                        <h3 className="text-xl font-semibold text-gray-900 mb-1">{exp.company || 'Unknown Company'}</h3>
+                        <p className="text-base text-indigo-600 font-medium mb-3">{exp.role || 'Role not specified'}</p>
                         
                         {/* Status Pills */}
                         <div className="flex flex-wrap items-center gap-3">
@@ -468,9 +471,9 @@ export default function BrowseExperiences() {
                       </div>
                       
                       <div className="text-right flex flex-col items-end gap-2">
-                        <span className="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-gray-100 text-gray-600">
-                          {exp.source || 'Unknown Source'}
-                        </span>
+                          <span className="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-indigo-50 text-indigo-600">
+                            {exp.source || 'Unknown Source'}
+                          </span>
                         <div className="flex items-center gap-1">
                           {translatedCards[idx] ? (
                             <button
@@ -498,7 +501,7 @@ export default function BrowseExperiences() {
                                   <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5h12M9 3v2m0 4l-3 3m0 0l3 3m-3-3h12" />
                                   </svg>
-                                  Translate
+                                  Translate to Hindi
                                 </>
                               )}
                             </button>
@@ -517,7 +520,7 @@ export default function BrowseExperiences() {
                     {exp.highlights && Array.isArray(exp.highlights) && exp.highlights.length > 0 && (
                       <div>
                         <h4 className="text-sm font-semibold text-gray-900 mb-3 flex items-center gap-2">
-                          <svg className="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <svg className="w-4 h-4 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
                           </svg>
                           Key Highlights
@@ -527,11 +530,11 @@ export default function BrowseExperiences() {
                             </span>
                           )}
                         </h4>
-                        <div className="bg-blue-50 rounded-lg p-4">
+                        <div className="bg-indigo-50 rounded-lg p-4">
                           <ul className="space-y-2">
                             {(expandedHighlights[idx] ? (translatedCards[idx]?.highlights || exp.highlights) : (translatedCards[idx]?.highlights || exp.highlights).slice(0, 3)).map((highlight, i) => (
                               <li key={i} className="flex items-start gap-2 text-sm text-gray-700">
-                                <span className="w-1.5 h-1.5 bg-blue-400 rounded-full mt-2 flex-shrink-0"></span>
+                                <span className="w-1.5 h-1.5 bg-indigo-400 rounded-full mt-2 flex-shrink-0"></span>
                                 {highlight}
                               </li>
                             ))}
@@ -539,7 +542,7 @@ export default function BrowseExperiences() {
                           {exp.highlights.length > 3 && (
                             <button
                               onClick={() => toggleHighlight(idx)}
-                              className="mt-3 text-blue-600 hover:text-blue-700 text-sm font-medium"
+                              className="mt-3 text-indigo-600 hover:text-indigo-700 text-sm font-medium"
                             >
                               {expandedHighlights[idx] ? 'Show Less' : `Show ${exp.highlights.length - 3} More`}
                             </button>
@@ -571,7 +574,7 @@ export default function BrowseExperiences() {
                     {((exp.roundwise_questions && typeof exp.roundwise_questions === 'object' && !Array.isArray(exp.roundwise_questions) && Object.keys(exp.roundwise_questions).length > 0) || exp.raw_questions?.length > 0) && (
                       <div>
                         <h4 className="text-sm font-semibold text-gray-900 mb-3 flex items-center gap-2">
-                          <svg className="w-4 h-4 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <svg className="w-4 h-4 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                           </svg>
                           Interview Questions
@@ -581,16 +584,16 @@ export default function BrowseExperiences() {
                             </span>
                           )}
                         </h4>
-                        <div className="bg-purple-50 rounded-lg p-4">
+                        <div className="bg-indigo-50/50 rounded-lg p-4">
                           {exp.roundwise_questions && typeof exp.roundwise_questions === 'object' && !Array.isArray(exp.roundwise_questions) && Object.keys(exp.roundwise_questions).length > 0 ? (
                             <div className="space-y-4">
                               {Object.entries(translatedCards[idx]?.roundwise_questions || exp.roundwise_questions).slice(0, expandedCards[idx] ? undefined : 2).map(([round, questions], qIdx) => (
-                                <div key={qIdx} className="border-l-3 border-purple-200 pl-4">
-                                  <h5 className="font-medium text-purple-900 mb-2">{round}</h5>
+                                  <div key={qIdx} className="border-l-3 border-indigo-200 pl-4">
+                                  <h5 className="font-medium text-indigo-900 mb-2">{round}</h5>
                                   <ul className="space-y-2">
                                     {questions.slice(0, expandedCards[idx] ? undefined : 3).map((q, i) => (
                                       <li key={i} className="flex items-start gap-2 text-sm text-gray-700">
-                                        <span className="text-purple-400 font-bold mt-0.5">Q:</span>
+                                        <span className="text-indigo-400 font-bold mt-0.5">Q:</span>
                                         <span>{q}</span>
                                       </li>
                                     ))}
@@ -607,7 +610,7 @@ export default function BrowseExperiences() {
                             <ul className="space-y-2">
                               {(expandedCards[idx] ? (translatedCards[idx]?.questions || exp.raw_questions) : (translatedCards[idx]?.questions || exp.raw_questions).slice(0, 4)).map((q, qIdx) => (
                                 <li key={qIdx} className="flex items-start gap-2 text-sm text-gray-700">
-                                  <span className="text-purple-400 font-bold mt-0.5">Q:</span>
+                                  <span className="text-indigo-400 font-bold mt-0.5">Q:</span>
                                   <span>{q}</span>
                                 </li>
                               ))}
@@ -618,7 +621,7 @@ export default function BrowseExperiences() {
                             (exp.raw_questions && exp.raw_questions.length > 4)) && (
                             <button
                               onClick={() => toggleExpanded(idx)}
-                              className="mt-4 inline-flex items-center gap-1 text-purple-600 hover:text-purple-700 text-sm font-medium"
+                              className="mt-4 inline-flex items-center gap-1 text-indigo-600 hover:text-indigo-700 text-sm font-medium"
                             >
                               {expandedCards[idx] ? (
                                 <>
